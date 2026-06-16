@@ -16,7 +16,8 @@
     "server"
   ],
   "exports": {
-    ".": "./src/server.js"
+    ".": "./src/server.js",
+    "./server": "./src/server.js"
   },
   "files": [
     "src",
