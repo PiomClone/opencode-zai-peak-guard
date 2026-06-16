@@ -4,6 +4,14 @@
   "description": "OpenCode server plugin that downgrades Z.AI premium models during peak pricing unless explicitly allowed.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/PiomClone/opencode-zai-peak-guard#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/PiomClone/opencode-zai-peak-guard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PiomClone/opencode-zai-peak-guard/issues"
+  },
   "oc-plugin": [
     "server"
   ],
@@ -19,9 +27,14 @@
     "opencode",
     "opencode-plugin",
     "zai",
+    "z-ai",
     "glm",
+    "glm-5",
+    "zai-coding-plan",
     "quota",
-    "guard"
+    "guard",
+    "peak-pricing",
+    "model-downgrade"
   ],
   "scripts": {
     "check": "node --check src/server.js && node test/smoke.mjs"

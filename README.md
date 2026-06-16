@@ -1,6 +1,20 @@
 # opencode-zai-peak-guard
 
-OpenCode server plugin that prevents accidental Z.AI peak pricing usage.
+OpenCode server plugin that prevents accidental Z.AI / GLM peak pricing usage.
+
+It is useful when you use Z.AI Coding Plan models in OpenCode and want a default-safe behavior during the expensive peak window: premium requests are automatically downgraded unless you explicitly allow peak usage for the current session.
+
+Companion TUI plugin: [opencode-zai-rate-indicator](https://github.com/PiomClone/opencode-zai-rate-indicator).
+
+## Quick Install
+
+```sh
+opencode plugin git@github.com:PiomClone/opencode-zai-peak-guard.git -g --force
+```
+
+Restart OpenCode after installing.
+
+## What It Does
 
 Default behavior during `09:00-13:00 Europe/Moscow`:
 
@@ -14,25 +28,23 @@ Session allow state is in-memory and resets after OpenCode restarts.
 
 ## Install
 
+From GitHub:
+
 ```sh
-opencode plugin file://$(pwd) -g --force
+opencode plugin git@github.com:PiomClone/opencode-zai-peak-guard.git -g --force
 ```
 
-Or add it to `~/.config/opencode/opencode.jsonc`:
+From a local checkout:
 
-```jsonc
-{
-  "plugin": [
-    "file:///Users/avkorkin/prj/opencode/plugins/opencode-zai-peak-guard"
-  ]
-}
+```sh
+opencode plugin file://$(pwd) -g --force
 ```
 
 ## Options
 
 ```jsonc
 [
-  "file:///Users/avkorkin/prj/opencode/plugins/opencode-zai-peak-guard",
+  "git.com:PiomClone/opencode-zai-peak-guard.git",
   {
     "peakHours": { "start": 9, "end": 13, "timeZone": "Europe/Moscow" },
     "blockedProviders": ["zai-coding-plan", "zhipuai-coding-plan", "zai", "zhipuai"],
@@ -49,3 +61,7 @@ Or add it to `~/.config/opencode/opencode.jsonc`:
 ```sh
 npm run check
 ```
+
+## Keywords
+
+OpenCode plugin, Z.AI, Z AI, GLM-5, GLM-5.2, Z.AI Coding Plan, peak pricing, quota guard, model downgrade.
