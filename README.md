@@ -44,7 +44,7 @@ opencode plugin file://$(pwd) -g --force
 
 ```jsonc
 [
-  "git.com:PiomClone/opencode-zai-peak-guard.git",
+  "git@github.com:PiomClone/opencode-zai-peak-guard.git",
   {
     "peakHours": { "start": 9, "end": 13, "timeZone": "Europe/Moscow" },
     "blockedProviders": ["zai-coding-plan", "zhipuai-coding-plan", "zai", "zhipuai"],
