@@ -1,0 +1,29 @@
+{
+  "name": "opencode-zai-peak-guard",
+  "version": "0.1.0",
+  "description": "OpenCode server plugin that downgrades Z.AI premium models during peak pricing unless explicitly allowed.",
+  "type": "module",
+  "license": "MIT",
+  "oc-plugin": [
+    "server"
+  ],
+  "exports": {
+    ".": "./src/server.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "zai",
+    "glm",
+    "quota",
+    "guard"
+  ],
+  "scripts": {
+    "check": "node --check src/server.js && node test/smoke.mjs"
+  }
+}
