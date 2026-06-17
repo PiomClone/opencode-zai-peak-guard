@@ -4,6 +4,7 @@ const DEFAULT_ALLOW_MARKERS = ["разрешаю пик", "allow peak", "!peak",
 const DEFAULT_FALLBACK_MODEL = { providerID: "zai-coding-plan", modelID: "glm-4.7" }
 const DEFAULT_PREMIUM_MODEL = { providerID: "zai-coding-plan", modelID: "glm-5.2" }
 const DEFAULT_PEAK_HOURS = { start: 9, end: 13, timeZone: "Europe/Moscow" }
+const DEFAULT_OFF_PEAK_BENEFIT_UNTIL = "2026-09-30"
 
 const allowedPeakSessions = new Set()
 
@@ -22,6 +23,7 @@ function config(options = {}) {
     fallbackModel: { ...DEFAULT_FALLBACK_MODEL, ...options.fallbackModel },
     premiumModel: { ...DEFAULT_PREMIUM_MODEL, ...options.premiumModel },
     peakHours: { ...DEFAULT_PEAK_HOURS, ...options.peakHours },
+    offPeakBenefitUntil: options.offPeakBenefitUntil ?? DEFAULT_OFF_PEAK_BENEFIT_UNTIL,
   }
 }
 
@@ -38,6 +40,25 @@ function hourInTimeZone(timeZone) {
 function isPeakNow(peakHours) {
   const hour = hourInTimeZone(peakHours.timeZone)
   return hour >= peakHours.start && hour < peakHours.end
+}
+
+function dateKeyInTimeZone(timeZone) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date())
+}
+
+function isOffPeakBenefitActive(settings) {
+  if (!settings.offPeakBenefitUntil) return false
+  return dateKeyInTimeZone(settings.peakHours.timeZone) <= settings.offPeakBenefitUntil
+}
+
+function currentQuotaMultiplier(settings) {
+  if (isPeakNow(settings.peakHours)) return "3x"
+  return isOffPeakBenefitActive(settings) ? "1x" : "2x"
 }
 
 function textParts(output) {
@@ -119,6 +140,7 @@ export const ZaiPeakGuard = async (_input, options = {}) => {
       prependNotice(
         output,
         `Z.AI peak guard: ${messageModel.modelID} is in peak pricing window. ` +
+          `Current quota multiplier: ${currentQuotaMultiplier(settings)}. ` +
           `Automatically switching this request to ${settings.fallbackModel.providerID}/${settings.fallbackModel.modelID}. ` +
           `Send '${settings.allowMarkers[0]}' once to allow peak usage for this session.`,
       )
